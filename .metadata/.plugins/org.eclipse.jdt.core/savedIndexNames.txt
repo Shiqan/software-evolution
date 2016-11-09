@@ -1,0 +1,1 @@
+INDEX VERSION 1.127+D:\UvA\Software Evolution\workspace\.metadata\.plugins\org.eclipse.jdt.core
