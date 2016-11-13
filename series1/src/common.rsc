@@ -20,12 +20,13 @@ public void debugger(value s) {
  * Get all files of a project.
  */
 public list[loc] getFiles(loc project, str ext="java") {
-   debugger("Getting all files of <project> with extension <ext>");
-
-   list[loc] result = [f | /file(f) <- crawl(project), f.extension == ext];
-   //debugger(result);	
-   debugger(size(result));	
-   return result;
+	debugger("Getting all files of <project> with extension <ext>");
+	
+	// Only java files and not the test files
+	list[loc] result = [f | /file(f) <- crawl(project), f.extension == ext,  /junit/ !:= f.path, /test/ !:= f.path];
+	//debugger(result);	
+	debugger(size(result));	
+	return result;
 }
 
 /**
@@ -74,8 +75,8 @@ public list[str] getLines(loc location) {
 	    }
   	}
   	
-	debugger("Lines in file <location>");
-	debugger(result);
+	//debugger("Lines in file <location>");
+	//debugger(result);
 	
 	return result;
 }

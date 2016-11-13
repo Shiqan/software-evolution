@@ -12,27 +12,44 @@ import common;
 /**
  * Find duplicate lines in a project.
  */
-public int findDuplicateCode(loc location) {	
+public int findDuplicateCode(loc location, int lineblock=6) {	
 	list[loc] allFiles = getFiles(project);
 	
-	map[str, int] x = ("placeholder": 0);
+	map[list[str], int] x = (["placeholder"]: 0);
+	map[list[str], list[loc]] y = (["placeholder"]: [file]);
 		
-	for(f <- allFiles) {	 	
+	for(f <- allFiles) {
+		list[str] _lines = [];	 	
 	 	for(l <- getLines(f)) {
-	 		if (l in x) x[l] += 1; else x[l] = 1;
+	 		_lines += l;
+	 		if (size(_lines) >= lineblock) {
+	 			if (_lines in x) {
+	 				x[_lines] += 1; 
+	 				y[_lines] += [f];
+	 			} else {
+	 				x[_lines] = 1;
+	 				y[_lines] = [f];
+	 			}
+	 			_lines = drop(1, _lines);
+	 		}
 	 	}
 	}
 	
-	debugger("\tUnique lines <size(x)>");	
-	debugger("\tDuplicate lines <sum([x[l] | l <- x]) - size(x)>");	
+	debugger("\n\n");
+	
+	k = getOneFrom(x);
+	debugger("Random key: <k>");
+	debugger("Value of key (x): <x[k]>");
+	debugger("Value of key (y): <y[k]>");
+	
+	debugger("Unique lines <size(x)>");	
+	debugger("Duplicate lines <sum([x[l] | l <- x]) - size(x)>");	
 	
 	int m = max([x[l] | l <- x]);
-	y = invert(x);
-	debugger("\tMost used line<y[m]>, <m> times.");	
+	map[int, set[list[str]]] invert_x = invert(x);
+	debugger("Most used line: <invert_x[m]>, <m> times.");	
 	
-	// instead of 1 line, n lines
-	// instead of str a list[str]?
-	// 
+ 
 	
 	return 0;
 }
