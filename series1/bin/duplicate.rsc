@@ -15,8 +15,8 @@ import common;
 public int findDuplicateCode(loc location, int lineblock=6) {	
 	list[loc] allFiles = getFiles(project);
 	
-	map[list[str], int] x = (["placeholder"]: 0);
-	map[list[str], list[loc]] y = (["placeholder"]: [file]);
+	map[list[str], int] x = ();
+	map[list[str], list[loc]] y = ();
 		
 	for(f <- allFiles) {
 		list[str] _lines = [];	 	

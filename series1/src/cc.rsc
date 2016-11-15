@@ -25,8 +25,8 @@ public void init() {
  */
 public lrel[int cc, loc method] getCC(loc location) {
 	lrel[int cc, loc method] result = maxCC(location);
-	debugger("CC of <location>");
-	debugger(result);
+	//debugger("CC of <location>");
+	//debugger(result);
 	return result;
 }
 
