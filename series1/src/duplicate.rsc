@@ -6,6 +6,7 @@ import Set;
 import List;
 import IO;
 import Map;
+import util::Math;
 
 import common;
 
@@ -42,8 +43,10 @@ public int findDuplicateCode(loc location, int lineblock=6) {
 	debugger("Value of key (x): <x[k]>");
 	debugger("Value of key (y): <y[k]>");
 	
-	debugger("Unique lines <size(x)>");	
-	debugger("Duplicate lines <sum([x[l] | l <- x]) - size(x)>");	
+	num total = size(x);
+	num dup = sum([x[l] | l <- x]) - size(x);
+	debugger("Unique lines <total>");	
+	debugger("Duplicate lines <dup>");	
 	
 	int m = max([x[l] | l <- x]);
 	map[int, set[list[str]]] invert_x = invert(x);
@@ -51,5 +54,5 @@ public int findDuplicateCode(loc location, int lineblock=6) {
 	
  
 	
-	return 0;
+	return percent(dup, total);
 }

@@ -11,38 +11,44 @@ import lang::java::jdt::m3::Core;
 
 import common;
 
-
-public void init() {
-	int lines = getLoc(file);
-}
-	
 /**
  * Get the LOC of a file.
  */
 public int getLocFile(loc location) {
 	list[str] lines = getLines(location);
 	int n = size(lines);
-	debugger("Number of lines in <location>");
-	debugger(n);
+	//debugger("Number of lines in <location>");
+	//debugger(n);
 	return n;
 }
 
 /**
- * Get the average LOC of a file.
+ * Get the total LOC of a project.
  */
-public int getAvgLocFile(loc location) {
-    list[int] result = [];
+public int getLocProject(loc location) {
+	list[int] result = [];
     
     for(f <- getFiles(location)) {
     	result = size(getLines(f)) + result;
     }
     
-    int n = sum(result) / size(result);
-	
-	debugger("Avg number of lines per file:");
-	debugger(n);
+    int n = sum(result);
+	debugger("Total number of lines of project <location>: <n>");
 	return n;
 }
+
+/**
+ * Get the average LOC of a project.
+ */
+public int getAvgLocFile(loc location) {
+	int total = getLocProject(location);
+	int files = size(getFiles(location));
+	
+	int n = total / files;
+	return n;
+}
+
+
 
 /**
  * Get the average LOC of a method.
