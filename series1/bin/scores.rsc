@@ -13,11 +13,13 @@ import common;
 import cc;
 import \loc;
 import duplicate;
+import testcoverage;
 
 
-public void riskDuplication() {
+public str riskDuplication(loc location) {
+	debugger("\n=== DUPLICATION ===\n");
 
-	d = findDuplicateCode(project);
+	d = findDuplicateCode(location);
 /*  
 ++ 0-3%
 + 3-5%
@@ -26,21 +28,46 @@ o 5-10%
 -- 20-100%
 */
 	if (d < 3) {
-		debugger("++");
+		return "++";
   	} else if (d < 5) {
-    	debugger("+");
+    	return "+";
  	} else if (d < 10) {
-    	debugger("0");
+    	return "0";
   	} else if (d < 20) {
-    	debugger("-");
+    	return "-";
   	} else {
-    	debugger("--");
+    	return "--";
   	}
 }
 
-public void riskLOC() {
+public str riskCoverage(loc location) {
+	debugger("\n=== TEST COVERAGE ===\n");
 
-	total_loc = getLocProject(project);
+	d = getTestCoverage(location);
+/*  
+++ 95-100%
++ 80-95%
+o 60-80%
+- 20-60%
+-- 0-20%
+*/
+	if (d < 20) {
+		return "--";
+  	} else if (d < 60) {
+    	return "-";
+ 	} else if (d < 80) {
+    	return "0";
+  	} else if (d < 95) {
+    	return "+";
+  	} else {
+    	return "++";
+  	}
+}
+
+public str riskLOC(loc location) {
+	debugger("\n=== LINES OF CODE ===\n");
+
+	total_loc = getLocProject(location);
 
 	num kloc = total_loc / 1000;
 /*  
@@ -52,21 +79,22 @@ o 246-665
 */
 
 	if (kloc < 66) {
-		debugger("++");
+		return "++";
   	} else if (kloc < 246) {
-    	debugger("+");
+    	return "+";
  	} else if (kloc < 665) {
-    	debugger("0");
+    	return "0";
   	} else if (kloc < 1310) {
-    	debugger("-");
+    	return "-";
   	} else {
-    	debugger("--");
+    	return "--";
   	}
 }
 
-public void riskUnitSize() {
+public str riskUnitSize(loc location) {
+	debugger("\n=== UNIT SIZE ===\n");
 
-	model = createM3FromEclipseProject(project);
+	model = createM3FromEclipseProject(location);
 
 	map[str, list[loc]] values = (
 		"without": [],
@@ -91,24 +119,16 @@ public void riskUnitSize() {
     debugger([[x, size(values[x])] | x <- values]);
     debugger("These methods have a very high risk: <values["veryhigh"]>");
     
-    total_loc = getLocProject(project);
-
-	debugger(total_loc);
+    total_loc = getLocProject(location);
     
 	moderate_loc = sum([getLocFile(x) | x <- values["moderate"]]);
-	debugger(moderate_loc);
 	m1 = percent(moderate_loc,total_loc);
-	debugger("Percent moderate risk: <m1>");
 	
 	high_loc = sum([getLocFile(x) | x <- values["high"]]);
-	debugger(high_loc);
 	m2 = percent(high_loc,total_loc);
-	debugger("Percent high risk: <m2>");
 	
 	vhigh_loc = sum([getLocFile(x) | x <- values["veryhigh"]]);
-	debugger(vhigh_loc);
 	m4 = percent(vhigh_loc,total_loc);
-	debugger("Percent very high risk: <m4>");
 	/*
 	++	25% 0% 0%
 	+ 30% 5% 0%
@@ -116,19 +136,20 @@ public void riskUnitSize() {
 	- 50% 15% 5%
 	*/
 	if (m1 <= 25 && m2 == 0 && m4 == 0) {
-		debugger("++");
+		return "++";
 	} else if (m1 <= 30 && m2 <= 5 && m4 == 0) {
-		debugger("+");
+		return "+";
 	} else if (m1 <= 40 && m2 <= 10 && m4 == 0) {
-		debugger("0");
-	} else if (m1 <= 50 && m2 <= 15 && m3 <= 5) {
-		debugger("-");
+		return "0";
+	} else if (m1 <= 50 && m2 <= 15 && m4 <= 5) {
+		return "-";
 	} else {
-		debugger("--");
+		return "--";
 	}
 }
 
-public void riskCC() {
+public str riskCC(loc location) {
+	debugger("\n=== COMPLEXITY ===\n");
 
 	map[str, list[loc]] values = (
 		"without": [],
@@ -137,7 +158,7 @@ public void riskCC() {
 		"veryhigh": []);
    	
    	
-   	for (f <- getFiles(project)) {
+   	for (f <- getFiles(location)) {
    		lrel[int cc, loc method] result = getCC(f);
    		   		
    		for (r <- result) {
@@ -158,23 +179,15 @@ public void riskCC() {
     debugger("These methods have a very high risk: <values["veryhigh"]>");
     
     total_loc = getLocProject(project);
-
-	debugger(total_loc);
     
 	moderate_loc = sum([getLocFile(x) | x <- values["moderate"]]);
-	debugger(moderate_loc);
 	m1 = percent(moderate_loc,total_loc);
-	debugger("Percent moderate risk: <m1>");
 	
 	high_loc = sum([getLocFile(x) | x <- values["high"]]);
-	debugger(high_loc);
 	m2 = percent(high_loc,total_loc);
-	debugger("Percent high risk: <m2>");
 	
 	vhigh_loc = sum([getLocFile(x) | x <- values["veryhigh"]]);
-	debugger(vhigh_loc);
 	m4 = percent(vhigh_loc,total_loc);
-	debugger("Percent very high risk: <m4>");
 	/*
 	++	25% 0% 0%
 	+ 30% 5% 0%
@@ -182,14 +195,14 @@ public void riskCC() {
 	- 50% 15% 5%
 	*/
 	if (m1 <= 25 && m2 == 0 && m4 == 0) {
-		debugger("++");
+		return "++";
 	} else if (m1 <= 30 && m2 <= 5 && m4 == 0) {
-		debugger("+");
+		return "+";
 	} else if (m1 <= 40 && m2 <= 10 && m4 == 0) {
-		debugger("0");
+		return "0";
 	} else if (m1 <= 50 && m2 <= 15 && m4 <= 5) {
-		debugger("-");
+		return "-";
 	} else {
-		debugger("--");
+		return "--";
 	}
 }

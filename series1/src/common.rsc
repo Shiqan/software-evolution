@@ -10,6 +10,7 @@ import util::FileSystem;
 // Test file
 public loc file = |project://smallsql/src/smallsql/database/Columns.java|;
 public loc project = |project://smallsql/src|;
+public loc project2 = |project://hsqldb-2.3.1/hsqldb/src|;
 
 private bool debug = true;
 public void debugger(value s) {
@@ -19,11 +20,11 @@ public void debugger(value s) {
 /**
  * Get all files of a project.
  */
-public list[loc] getFiles(loc project, str ext="java") {
-	debugger("Getting all files of <project> with extension <ext>");
+public list[loc] getFiles(loc location, str ext="java") {
+	debugger("Getting all files of <location> with extension <ext>");
 	
 	// Only java files and not the test files
-	list[loc] result = [f | /file(f) <- crawl(project), f.extension == ext,  /junit/ !:= f.path, /test/ !:= f.path];
+	list[loc] result = [f | /file(f) <- crawl(location), f.extension == ext,  /junit/ !:= f.path, /test/ !:= f.path];
 	//debugger(result);	
 	debugger(size(result));	
 	return result;

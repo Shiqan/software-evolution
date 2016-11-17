@@ -11,7 +11,7 @@ import util::Math;
 import common;
 
 /**
- * Find duplicate lines in a project.
+ * Find duplicate lines in a project and return % of duplication.
  */
 public int findDuplicateCode(loc location, int lineblock=6) {	
 	list[loc] allFiles = getFiles(project);
