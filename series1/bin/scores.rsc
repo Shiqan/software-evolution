@@ -14,8 +14,11 @@ import cc;
 import \loc;
 import duplicate;
 import testcoverage;
+import export;
 
-
+/**
+ * Determine the risk of duplication of a project.
+ */
 public str riskDuplication(loc location) {
 	debugger("\n=== DUPLICATION ===\n");
 
@@ -40,6 +43,9 @@ o 5-10%
   	}
 }
 
+/**
+ * Determine the risk of test coverage of a project.
+ */
 public str riskCoverage(loc location) {
 	debugger("\n=== TEST COVERAGE ===\n");
 
@@ -64,6 +70,9 @@ o 60-80%
   	}
 }
 
+/**
+ * Determine the risk volume of a project.
+ */
 public str riskLOC(loc location) {
 	debugger("\n=== LINES OF CODE ===\n");
 
@@ -91,6 +100,9 @@ o 246-665
   	}
 }
 
+/**
+ * Determine the risk of unit size of a project.
+ */
 public str riskUnitSize(loc location) {
 	debugger("\n=== UNIT SIZE ===\n");
 
@@ -118,6 +130,7 @@ public str riskUnitSize(loc location) {
        
     debugger([[x, size(values[x])] | x <- values]);
     debugger("These methods have a very high risk: <values["veryhigh"]>");
+    export_unitsize(values);
     
     total_loc = getLocProject(location);
     
@@ -148,6 +161,9 @@ public str riskUnitSize(loc location) {
 	}
 }
 
+/**
+ * Determine the risk of complexity of a project.
+ */
 public str riskCC(loc location) {
 	debugger("\n=== COMPLEXITY ===\n");
 
@@ -173,10 +189,10 @@ public str riskCC(loc location) {
 	    	}
    		}  		
    	}
-   		
-    //debugger("CC values: <values>");   
+   		  
     debugger([[x, size(values[x])] | x <- values]);
     debugger("These methods have a very high risk: <values["veryhigh"]>");
+    export_cc(values);
     
     total_loc = getLocProject(project);
     

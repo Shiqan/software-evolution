@@ -14,19 +14,11 @@ import util::FileSystem;
 import lang::java::\syntax::Disambiguate;
 import common;
 
-public void init() {
-	getCC(file);
-	
-	findComplexFiles(project);
-}
-
 /**
  * Get the CC of a file.
  */
 public lrel[int cc, loc method] getCC(loc location) {
 	lrel[int cc, loc method] result = maxCC(location);
-	//debugger("CC of <location>");
-	//debugger(result);
 	return result;
 }
 

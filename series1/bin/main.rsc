@@ -15,7 +15,9 @@ import testcoverage;
 
 public void main() {
 	//analyzeProject(project);
-	analyzeProject(project2);
+	//analyzeProject(project2);
+	//riskUnitSize(project);
+	riskCC(project);
 }	
 
 public void analyzeProject(loc location){
