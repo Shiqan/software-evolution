@@ -44,7 +44,7 @@ public int findDuplicateCode(loc location, int lineblock=6) {
 	debugger("Value of key (y): <y[k]>");
 	
 	num total = size(x);
-	num dup = sum([x[l] | l <- x]) - size(x);
+	num dup = (sum([x[l] | l <- x]))*lineblock - size(x);
 	debugger("Unique lines <total>");	
 	debugger("Duplicate lines <dup>");	
 	

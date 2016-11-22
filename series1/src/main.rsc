@@ -5,6 +5,7 @@ module main
 import lang::java::jdt::m3::Core;
 import lang::java::jdt::m3::AST;
 import IO;
+import DateTime;
 
 import common;
 import \loc;
@@ -14,10 +15,15 @@ import scores;
 import testcoverage;
 
 public void main() {
+
+	datetime start_time = now();
+	debugger("Start analyzing at: <start_time>");
+	
 	//analyzeProject(project);
-	//analyzeProject(project2);
-	//riskUnitSize(project);
-	riskCC(project);
+	analyzeProject(project2);
+	
+	datetime end_time = now();
+	debugger("Finished analyzing at: <end_time>");
 }	
 
 public void analyzeProject(loc location){
