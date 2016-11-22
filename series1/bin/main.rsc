@@ -26,7 +26,7 @@ public void main() {
 	debugger("Finished analyzing at: <end_time>");
 }	
 
-@doc{Something here}
+@doc{Analyze a project based on the SIG model}
 public void analyzeProject(loc location){
 	
 	str risk1 = riskUnitSize(location);

@@ -16,13 +16,18 @@ import duplicate;
 import testcoverage;
 import export;
 
-/**
- * Determine the risk of duplication of a project.
- */
+@doc{Determine the risk of duplication of a project}
 public str riskDuplication(loc location) {
 	debugger("\n=== DUPLICATION ===\n");
 
-	d = findDuplicateCode(location);
+	map[list[str], list[loc]] result = findDuplicateCode(location);
+
+	num dup = sum([size(result[l]) | l <- result]) - size([l | l <- result]);
+	total_loc = getLocProject(location);
+ 	
+ 	// Lineblocks of 6.
+ 	int d = percent(dup*6, total_loc);
+ 	debugger("Percentage of duplicate lines: <d>%");
 /*  
 ++ 0-3%
 + 3-5%
@@ -43,13 +48,11 @@ o 5-10%
   	}
 }
 
-/**
- * Determine the risk of test coverage of a project.
- */
+@doc{Determine the risk of test coverage of a project}
 public str riskCoverage(loc location) {
 	debugger("\n=== TEST COVERAGE ===\n");
 
-	d = getTestCoverage(location);
+	int d = getTestCoverage(location);
 /*  
 ++ 95-100%
 + 80-95%
@@ -70,13 +73,11 @@ o 60-80%
   	}
 }
 
-/**
- * Determine the risk volume of a project.
- */
+@doc{Determine the risk volume of a project}
 public str riskLOC(loc location) {
 	debugger("\n=== LINES OF CODE ===\n");
 
-	total_loc = getLocProject(location);
+	int total_loc = getLocProject(location);
 
 	num kloc = total_loc / 1000;
 /*  
@@ -100,9 +101,7 @@ o 246-665
   	}
 }
 
-/**
- * Determine the risk of unit size of a project.
- */
+@doc{Determine the risk of unit size of a project}
 public str riskUnitSize(loc location) {
 	debugger("\n=== UNIT SIZE ===\n");
 
@@ -132,16 +131,16 @@ public str riskUnitSize(loc location) {
     debugger("These methods have a very high risk: <values["veryhigh"]>");
     export_unitsize(values);
     
-    total_loc = getLocProject(location);
+    int total_loc = getLocProject(location);
     
-	moderate_loc = sum([getLocFile(x) | x <- values["moderate"]]);
-	m1 = percent(moderate_loc,total_loc);
+	int moderate_loc = sum([getLocFile(x) | x <- values["moderate"]]);
+	int m1 = percent(moderate_loc,total_loc);
 	
-	high_loc = sum([getLocFile(x) | x <- values["high"]]);
-	m2 = percent(high_loc,total_loc);
+	int high_loc = sum([getLocFile(x) | x <- values["high"]]);
+	int m2 = percent(high_loc,total_loc);
 	
-	vhigh_loc = sum([getLocFile(x) | x <- values["veryhigh"]]);
-	m4 = percent(vhigh_loc,total_loc);
+	int vhigh_loc = sum([getLocFile(x) | x <- values["veryhigh"]]);
+	int m4 = percent(vhigh_loc,total_loc);
 	/*
 	++	25% 0% 0%
 	+ 30% 5% 0%
@@ -161,9 +160,7 @@ public str riskUnitSize(loc location) {
 	}
 }
 
-/**
- * Determine the risk of complexity of a project.
- */
+@doc{Determine the risk of complexity of a project}
 public str riskCC(loc location) {
 	debugger("\n=== COMPLEXITY ===\n");
 
@@ -194,16 +191,16 @@ public str riskCC(loc location) {
     debugger("These methods have a very high risk: <values["veryhigh"]>");
     export_cc(values);
     
-    total_loc = getLocProject(project);
+    int total_loc = getLocProject(project);
     
-	moderate_loc = sum([getLocFile(x) | x <- values["moderate"]]);
-	m1 = percent(moderate_loc,total_loc);
+	int moderate_loc = sum([getLocFile(x) | x <- values["moderate"]]);
+	int m1 = percent(moderate_loc,total_loc);
 	
-	high_loc = sum([getLocFile(x) | x <- values["high"]]);
-	m2 = percent(high_loc,total_loc);
+	int high_loc = sum([getLocFile(x) | x <- values["high"]]);
+	int m2 = percent(high_loc,total_loc);
 	
-	vhigh_loc = sum([getLocFile(x) | x <- values["veryhigh"]]);
-	m4 = percent(vhigh_loc,total_loc);
+	int vhigh_loc = sum([getLocFile(x) | x <- values["veryhigh"]]);
+	int m4 = percent(vhigh_loc,total_loc);
 	/*
 	++	25% 0% 0%
 	+ 30% 5% 0%

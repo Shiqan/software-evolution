@@ -14,17 +14,13 @@ import util::FileSystem;
 import lang::java::\syntax::Disambiguate;
 import common;
 
-/**
- * Get the CC of a file.
- */
+@doc{Get cyclomatic complexity of each method in a file}
 public lrel[int cc, loc method] getCC(loc location) {
 	lrel[int cc, loc method] result = maxCC(location);
 	return result;
 }
 
-/**
- * Get the CC of a method. (http://www.rascal-mpl.org/#_Metrics)
- */
+@doc{Get the CC of a method. (http://www.rascal-mpl.org/#_Metrics) }
 public int cyclomaticComplexity(MethodDec m) {
   result = 1;
   visit (m) {

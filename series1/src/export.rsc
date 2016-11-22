@@ -20,9 +20,7 @@ public void export_cc(map[str, list[loc]] x) {
 	export_map(export_file_cc, "complexity", x);
 }
 
-/**
- * Export a map with risk: [methods] to json.
- */
+@doc{Export a map with risk: [methods] to json}
 public void export_map(loc f, str name, map[str, list[loc]] x) {
 	writeFile(f, "");
 	
@@ -51,8 +49,6 @@ public void export_map(loc f, str name, map[str, list[loc]] x) {
 		counter1 += 1;
 	}
 	
-	appendToFile(f, "} }");
-	
-	
+	appendToFile(f, "} }");	
 }
 

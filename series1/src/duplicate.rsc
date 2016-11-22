@@ -11,53 +11,43 @@ import util::Math;
 import common;
 import \loc;
 
-/**
- * Find duplicate lines in a project and return % of duplication.
- */
-public int findDuplicateCode(loc location, int lineblock=6) {	
+@doc{Find duplicate lineblocks in a project and return map with occurences}
+public map[list[str], list[loc]] findDuplicateCode(loc location, int lineblock=6) {	
 	list[loc] allFiles = getFiles(project);
 	
-	map[list[str], int] x = ();
-	map[list[str], list[loc]] y = ();
+	map[list[str], list[loc]] result = ();
 		
 	for(f <- allFiles) {
 		list[str] _lines = [];	 	
 	 	for(l <- getLines(f)) {
 	 		_lines += l;
 	 		if (size(_lines) >= lineblock) {
-	 			if (_lines in x) {
-	 				x[_lines] += 1; 
-	 				y[_lines] += [f];
+	 			if (_lines in result) {
+	 				result[_lines] += [f];
 	 			} else {
-	 				x[_lines] = 1;
-	 				y[_lines] = [f];
+	 				result[_lines] = [f];
 	 			}
 	 			_lines = drop(1, _lines);
 	 		}
 	 	}
 	}
 	
-	debugger("\n\n");
 	
-	k = getOneFrom(x);
+	k = getOneFrom(result);
 	debugger("Random key: <k>");
-	debugger("Value of key (x): <x[k]>");
-	debugger("Value of key (y): <y[k]>");
-	
-	num total = size(x);
-	num dup = sum([x[l] | l <- x]) - size(x);
+	debugger("Value of key (result): <result[k]>");
+		
+	num total = size(result);
+	num dup = sum([size(result[l]) | l <- result]) - size(result);
 	debugger("Unique blocks <total>");	
 	debugger("Duplicate blocks <dup>");	
 	
-	int m = max([x[l] | l <- x]);
-	map[int, set[list[str]]] invert_x = invert(x);
-	debugger("Most used line: <invert_x[m]>, <m> times.");	
-	
- 
- 	total_loc = getLocProject(location);
- 	
- 	int dup_perc = percent(dup*lineblock, total_loc);
- 	debugger("Percentage of duplicate lines: <dup_perc>");
- 
-	return dup_perc;
+	int m = max([size(result[l]) | l <- result]);
+	for (l <- result) {
+		if (m == size(result[l])) {
+			debugger("Most used line: <l>, <m> times.");	
+		}
+	}
+	 
+	return result;
 }

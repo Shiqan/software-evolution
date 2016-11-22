@@ -11,9 +11,7 @@ import lang::java::jdt::m3::Core;
 
 import common;
 
-/**
- * Get the LOC of a file.
- */
+@doc{Get the LOC of a file}
 public int getLocFile(loc location) {
 	list[str] lines = getLines(location);
 	int n = size(lines);
@@ -22,9 +20,7 @@ public int getLocFile(loc location) {
 	return n;
 }
 
-/**
- * Get the total LOC of a project.
- */
+@doc{Get the total LOC of a project}
 public int getLocProject(loc location) {
 	list[int] result = [];
     
@@ -37,9 +33,7 @@ public int getLocProject(loc location) {
 	return n;
 }
 
-/**
- * Get the average LOC of a project.
- */
+@doc{Get the average LOC of a project}
 public int getAvgLocFile(loc location) {
 	int total = getLocProject(location);
 	int files = size(getFiles(location));
@@ -48,11 +42,7 @@ public int getAvgLocFile(loc location) {
 	return n;
 }
 
-
-
-/**
- * Get the average LOC of a method.
- */
+@doc{Get the average LOC of a project}
 public int getAvgLocMethod(model) {
     list[int] result = [];
     
@@ -67,9 +57,7 @@ public int getAvgLocMethod(model) {
 	return n;
 }
 
-/**
- * Get the average LOC of a class.
- */
+@doc{Get the average LOC of a class}
 public int getAvgLocClass(model) {
     list[int] result = [];
     

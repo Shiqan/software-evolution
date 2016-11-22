@@ -25,9 +25,7 @@ public int getTestCoverage(loc location) {
 	return coverage;
 }
 
-/**
- * Get all files of a project.
- */
+@doc{Get all test files of a project}
 public list[loc] getTestFiles(loc project, str ext="java") {
 	debugger("Getting all files of <project> with extension <ext>");
 	
