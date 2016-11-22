@@ -19,13 +19,14 @@ public void main() {
 	datetime start_time = now();
 	debugger("Start analyzing at: <start_time>");
 	
-	//analyzeProject(project);
-	analyzeProject(project2);
+	analyzeProject(project);
+	//analyzeProject(project2);
 	
 	datetime end_time = now();
 	debugger("Finished analyzing at: <end_time>");
 }	
 
+@doc{Something here}
 public void analyzeProject(loc location){
 	
 	str risk1 = riskUnitSize(location);

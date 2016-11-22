@@ -17,9 +17,7 @@ public void debugger(value s) {
   if (debug) println(s);
 }
 
-/**
- * Get all files of a project.
- */
+@doc{Get all files of a project}
 public list[loc] getFiles(loc location, str ext="java") {
 	debugger("Getting all files of <location> with extension <ext>");
 	
@@ -30,12 +28,18 @@ public list[loc] getFiles(loc location, str ext="java") {
 	return result;
 }
 
-/**
- * Get the lines of a file.
- * Trim the lines
- * Remove both single and multiline comments
- * Remove single bracket lines
- */
+@doc{Returns string with all whitespaces removed}
+public str strip(str s) {
+	list[str] toStrip = [" ", "\t"];
+  
+	for (rm <- toStrip) {
+		s = replaceAll(s, rm, "");
+	}
+	
+	return s;
+} 
+
+@doc{Get all the code lines of a file}
 public list[str] getLines(loc location) {
 	list[str] allLines = readFileLines(location);
 
@@ -43,7 +47,7 @@ public list[str] getLines(loc location) {
 	bool comment = false;
 
 	for(s <- allLines) {    	
-    	// Remove spaces
+    	// Remove leading and trailing spaces
     	s = trim(s);
     	
     	// Skip multi line comments
@@ -69,6 +73,9 @@ public list[str] getLines(loc location) {
 	
 	    // Skip lines with only brackets
 	   	if (/\{|\}/ := s && size(s) == 1) continue;
+	   	
+	   	// Remove all whitespaces from string
+	   	s = strip(s);
 	   
 	   // Skip empty lines
 	    if (!isEmpty(s)) {

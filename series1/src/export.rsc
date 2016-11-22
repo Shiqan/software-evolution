@@ -35,10 +35,7 @@ public void export_map(loc f, str name, map[str, list[loc]] x) {
 		int counter = 1;
 		appendToFile(f, "\"methods_<r>\" : [");
 		for (a <- x[r]) {
-			appendToFile(f, "\"");
-			appendToFile(f, a);
-			//appendtoFile(f, readFile(a));
-			appendToFile(f, "\"");
+			appendToFile(f, "\"<a>\"");
 	
 			if (counter != size(x[r])) {
 				appendToFile(f, ",");

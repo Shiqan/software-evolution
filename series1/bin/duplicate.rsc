@@ -9,6 +9,7 @@ import Map;
 import util::Math;
 
 import common;
+import \loc;
 
 /**
  * Find duplicate lines in a project and return % of duplication.
@@ -44,15 +45,19 @@ public int findDuplicateCode(loc location, int lineblock=6) {
 	debugger("Value of key (y): <y[k]>");
 	
 	num total = size(x);
-	num dup = (sum([x[l] | l <- x]))*lineblock - size(x);
-	debugger("Unique lines <total>");	
-	debugger("Duplicate lines <dup>");	
+	num dup = sum([x[l] | l <- x]) - size(x);
+	debugger("Unique blocks <total>");	
+	debugger("Duplicate blocks <dup>");	
 	
 	int m = max([x[l] | l <- x]);
 	map[int, set[list[str]]] invert_x = invert(x);
 	debugger("Most used line: <invert_x[m]>, <m> times.");	
 	
  
-	
-	return percent(dup, total);
+ 	total_loc = getLocProject(location);
+ 	
+ 	int dup_perc = percent(dup*lineblock, total_loc);
+ 	debugger("Percentage of duplicate lines: <dup_perc>");
+ 
+	return dup_perc;
 }
