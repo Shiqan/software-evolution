@@ -7,17 +7,19 @@ import String;
 import List;
 import util::FileSystem;
 
+bool ex = true;
+
 public loc export_file_unitsize = |project://series1/src/export_unitsize.json|;
 public loc export_file_cc = |project://series1/src/export_cc.json|;
 
 public list[str] risks = ["without", "moderate", "high", "veryhigh"];
 
 public void export_unitsize(map[str, list[loc]] x) {
-	export_map(export_file_unitsize, "unit_size", x);
+	if (ex) export_map(export_file_unitsize, "unit_size", x);
 }
 
 public void export_cc(map[str, list[loc]] x) {
-	export_map(export_file_cc, "complexity", x);
+	if (ex) export_map(export_file_cc, "complexity", x);
 }
 
 @doc{Export a map with risk: [methods] to json}
