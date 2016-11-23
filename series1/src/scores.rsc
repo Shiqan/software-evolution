@@ -21,6 +21,7 @@ public str riskDuplication(loc location) {
 	debugger("\n=== DUPLICATION ===\n");
 
 	map[list[str], list[loc]] result = findDuplicateCode(location);
+	export_duplication(result);
 
 	num dup = sum([size(result[l]) | l <- result]) - size([l | l <- result]);
 	total_loc = getLocProject(location);
