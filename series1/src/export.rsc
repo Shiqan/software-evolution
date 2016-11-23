@@ -62,30 +62,49 @@ public void export_map(loc f, str name, map[str, list[loc]] x) {
 
 @doc{Export a map with [strings]: [location] to json}
 public void export_map2(loc f, str name, map[list[str], list[loc]] x) {
+	// { "row": { "lines":[lines], "":[location] }}
 	writeFile(f, "");
 	
-	appendToFile(f, "{\"<name>\" : {");
+	appendToFile(f, "{\"<name>\" : [");
 	
 	int counter = 1;
 	
-	for (r <- x) {
+	map[list[str], list[loc]] y = (r:x[r] | r <- x, size(x[r]) > 1);
+		
+	for (r <- y) {
+		 		
 		int counter1 = 1;
-		appendToFile(f, "\"<toString(r)>\": [");
-		for (l <- x[r]) {
+		int counter2 = 1;
+		
+		// Add the lines
+		appendToFile(f, "{ \"lines\":["); 
+		for (l <- r) {
+			l = replaceAll(l, "\"", "\'");
 			appendToFile(f, "\"<l>\"");
-			if (counter1 != size(x[r])) {
+			if (counter1 != size(r)) {
 				appendToFile(f, ",");
 			}
 			counter1 +=1;
 		}
-		appendToFile(f, "]");
+		
+		// Add the location
+		appendToFile(f, "], \"location\": [");
+		for (l <- x[r]) {
+			appendToFile(f, "\"<l>\"");
+			if (counter2 != size(x[r])) {
+				appendToFile(f, ",");
+			}
+			counter2 +=1;
+		}
+		appendToFile(f, "]}");
 	
-		if (counter != size(x)) {
+		if (counter != size(y)) {
 			appendToFile(f, ",");
 		}
 		appendToFile(f, "\n");
 		counter += 1;
+		
 	}
 	
-	appendToFile(f, "}");	
+	appendToFile(f, "]}");	
 }
