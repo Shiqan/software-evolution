@@ -18,7 +18,7 @@ Scores for project |project://hsqldb-2.3.1/hsqldb/src|:
 Finished analyzing at: $2016-11-24T11:38:40.934+00:00$  
 
 ### Unit size:
-Get the loc for all methods.
+Determine unit size of each method and divide over veryhigh, high, moderate and without risk. 
 
 ### LOC
 Get the loc for a project and calculate the KLOC.
