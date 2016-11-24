@@ -1,21 +1,21 @@
 # software-evolution
 
 # Series 1
-Scores for project |project://smallsql/src|:
---- Unit Size: --
---- LOC: ++
---- Duplication: -
---- Complexity: --
---- Test Coverage: --
+Scores for project |project://smallsql/src|:  
+--- Unit Size: --  
+--- LOC: ++  
+--- Duplication: -  
+--- Complexity: --  
+--- Test Coverage: --  
 
-Start analyzing at: $2016-11-24T11:32:01.840+00:00$
-Scores for project |project://hsqldb-2.3.1/hsqldb/src|:
---- Unit Size: --
---- LOC: +
---- Duplication: ++
---- Complexity: --
---- Test Coverage: --
-Finished analyzing at: $2016-11-24T11:38:40.934+00:00$
+Start analyzing at: $2016-11-24T11:32:01.840+00:00$    
+Scores for project |project://hsqldb-2.3.1/hsqldb/src|:  
+--- Unit Size: --  
+--- LOC: +  
+--- Duplication: ++  
+--- Complexity: --  
+--- Test Coverage: --  
+Finished analyzing at: $2016-11-24T11:38:40.934+00:00$  
 
 ### Unit size:
 Get the loc for all methods.
