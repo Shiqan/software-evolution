@@ -1,4 +1,4 @@
-# software-evolution
+﻿# software-evolution
 
 # Series 1
 Scores for project |project://smallsql/src|:  
@@ -41,7 +41,18 @@ are used within that file or class. This is also proposed (along with other metr
 
 
 # Series 2
-...
+### Metric based approach
+1. For each method, calcuate the following metrics to create a vector: Number of Lines, Lines of Code,
+2. For all method combinations, calcuate the cosine similarity based on the two vectors.
+3. Find all the scores where the cosine similarity equals 1 (same vector). When adding more metrics to the vectors this threshold needs to be adjusted.
+
+### Visualization
+For the visualization of the clones I chose to implement a chord diagram to it is easy to see how clones are related within files. Since this is on file level, I added an onclick event to show which methods exactly are the clones and when clicking a table row you can actually see the source code of both methods.
+Therefore, my visualization supports root cause analysis. 
+
+If I had more time some nice features would have been an option to ignore clones after checking the source code. 
+Another option could have been selecting specific metrics to analyze.
+
 
 # References
 
