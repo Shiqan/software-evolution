@@ -42,7 +42,9 @@ are used within that file or class. This is also proposed (along with other metr
 
 # Series 2
 ### Metric based approach
-1. For each method, calcuate the following metrics to create a vector: Number of Lines, Lines of Code,
+1. For each method, calcuate the following metrics to create a vector: Number of Lines, Lines of Code, Lines with comments, number of parameters, number of variables and cyclomatic complexity.
+I chose these metrics based on research from Roy et al. (2009), Baxter et al. (1998), Antoniol et al. (2001) and Mayrand (1996).
+However, these studies use more metrics. 
 2. For all method combinations, calcuate the cosine similarity based on the two vectors.
 3. Find all the scores where the cosine similarity equals 1 (same vector). When adding more metrics to the vectors this threshold needs to be adjusted.
 
@@ -55,6 +57,13 @@ Another option could have been selecting specific metrics to analyze.
 
 
 # References
+Roy, C. K., Cordy, J. R., & Koschke, R. (2009). Comparison and evaluation of code clone detection techniques and tools: A qualitative approach. Science of Computer Programming, 74(7), 470-495.
+
+Baxter, I. D., Yahin, A., Moura, L., Sant'Anna, M., & Bier, L. (1998, November). Clone detection using abstract syntax trees. In Software Maintenance, 1998. Proceedings., International Conference on (pp. 368-377). IEEE.
+
+Antoniol, G., Penta, M. D., Casazza, G., & Merlo, E. (2001, November). Modeling clones evolution through time series. In Proceedings of the IEEE International Conference on Software Maintenance (ICSM'01) (p. 273). IEEE Computer Society.
+
+Mayrand, J., Leblanc, C., & Merlo, E. M. (1996, November). Experiment on the automatic detection of function clones in a software system using metrics. In Software Maintenance 1996, Proceedings., International Conference on (pp. 244-253). IEEE.
 
 Davy Landman, Alexander Serebrenik, and Jurgen Vinju.  Empirical anal-ysis of the relationship between cc and sloc in a large corpus of java meth-ods.  InSoftware Maintenance and Evolution (ICSME), 2014 IEEE Inter-national Conference on, pages 221–230. IEEE, 2014.
 
