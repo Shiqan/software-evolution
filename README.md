@@ -49,7 +49,7 @@ However, these studies use more metrics.
 3. Find all the scores where the cosine similarity equals 1 (same vector). When adding more metrics to the vectors this threshold needs to be adjusted.
 
 ### Visualization
-For the visualization of the clones I chose to implement an edge bundle diagram described in Hauptmann et al. (2012). This way, it is easy to see how clones are related within files and focus on manual inspection of the clones. Since this is on file level, I added an onclick event to show which methods exactly are the clones and when clicking a table row you can actually see the source code of both methods. Therefore, my visualization supports root cause analysis.
+For the visualization of the clones I chose to implement an edge bundle diagram described in Hauptmann et al. (2012) and Zhou et al. (2013). This way, it is easy to see how clones are related within files and focus on manual inspection of the clones. Since this is on file level, I added an onclick event to show which methods exactly are the clones and when clicking a table row you can actually see the source code of both methods. Therefore, my visualization supports root cause analysis.
 
 # References
 Roy, C. K., Cordy, J. R., & Koschke, R. (2009). Comparison and evaluation of code clone detection techniques and tools: A qualitative approach. Science of Computer Programming, 74(7), 470-495.
@@ -61,6 +61,8 @@ Antoniol, G., Penta, M. D., Casazza, G., & Merlo, E. (2001, November). Modeling 
 Mayrand, J., Leblanc, C., & Merlo, E. M. (1996, November). Experiment on the automatic detection of function clones in a software system using metrics. In Software Maintenance 1996, Proceedings., International Conference on (pp. 244-253). IEEE.
 
 Hauptmann, B., Bauer, V., & Junker, M. (2012, June). Using edge bundle views for clone visualization. In Proceedings of the 6th International Workshop on Software Clones (pp. 86-87). IEEE Press.
+
+Zhou, H., Xu, P., Yuan, X., & Qu, H. (2013). Edge bundling in information visualization. Tsinghua Science and Technology, 18(2), 145-156.
 
 Davy Landman, Alexander Serebrenik, and Jurgen Vinju.  Empirical anal-ysis of the relationship between cc and sloc in a large corpus of java meth-ods.  InSoftware Maintenance and Evolution (ICSME), 2014 IEEE Inter-national Conference on, pages 221–230. IEEE, 2014.
 
