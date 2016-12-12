@@ -11,6 +11,16 @@ public loc testproject = |project://testproject/src|;
 public loc project = |project://smallsql/src|;
 public loc project2 = |project://hsqldb-2.3.1/hsqldb/src|;
 
+public loc file_vectors = |project://series2/src/vectors.csv|;
+public loc file_cosines = |project://series2/src/cosine.csv|;
+public loc file_euclidean = |project://series2/src/euclidean.csv|;
+public loc export_file = |project://series2/src/export.json|;
+public loc src_file_json = |project://series2/src/export_src.json|;
+public loc src_file_csv = |project://series2/src/export_src.csv|;
+
+public int cosine_threshold = 1;
+public int euclidean_threshold = 0;
+
 private bool debug = true;
 public void debugger(value s) {
   if (debug) println(s);

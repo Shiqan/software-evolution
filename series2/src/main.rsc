@@ -14,142 +14,21 @@ import lang::csv::IO;
 import Type;
 
 import common;
-import duplicate;
+import duplication;
 import metrics;
 
-public loc file_vectors = |project://series2/src/vectors.csv|;
-public loc file_cosines = |project://series2/src/cosine.csv|;
-public loc file_euclidean = |project://series2/src/euclidean.csv|;
-public loc export_file = |project://series2/src/export.json|;
-//public loc src_file = |project://series2/src/export_src.csv|;
-public loc src_file = |project://series2/src/export_src.json|;
 
-public int cosine_threshold = 1;
-public int euclidean_threshold = 0;
 
-public real cosine(list[int] a, list[int] b) {
-	int numerator = sum([i.first * i.second | i <- zip(a,b)]);	
-	real denominator = sqrt(sum([ai*ai | ai <- a])*sum([bi*bi | bi <- b]));
-	real result = numerator / denominator;	
-	
-	//debugger(result);
-	return result;
-}
-
-public real euclidean(list[int] a, list[int] b) {
-	real result = sqrt(sum([pow((i.first - i.second), 2) | i <- zip(a,b)]));
-	
-	//debugger(result);
-	return result;	
-}
 
 public void main() {
-	model = createM3FromEclipseProject(project);
-	list[tuple[loc method, list[int] vector]] vectors = [];
-	// vector [lines, loc, comments, params, variables, cc]
+	write_vectors();
+	write_cosine_scores();
+	dups_per_file();
 	
-	int i = 1, total = size(methods(model));
-	for (method <- methods(model)) {
-		print("Method file <i> of <total>\r");
-		
-		lines = getLines(method);
-		lines2 = filterLines(lines);
-		
-		if (lines == []) continue;
-		if (lines2 == []) continue;
-				
-		v = [];
-		v += [size(lines)];
-		v += [size(lines2)];
-		v += [size(lines) - size(lines2)];
-		v += [params(lines2[0].line)];
-		v += [variables(lines2)];
-		v += [cyclomaticComplexity(lines2)];
-		
-		vectors += [<method, v>];
-		
-		i += 1;
-	}	
-	
-	writeCSV(vectors, file_vectors);
-}
-
-public void cosine_scores() {	
-	//cosines = [<a, b, cosine(vectors[a],vectors[b])> | a <- vectors, b <- vectors, a != b];
-	
-	vectors = readCSV(#lrel[loc method, list[int] vector], file_vectors);
-	
-	int i = 1, total = size(vectors);
-	result = [];
-	list[tuple[loc method, list[int] vector]] vectors2 = vectors;
-	for (a <- vectors) {
-		print("Calculating cosine similarity <i> of <total>\r");
-		
-		// Transitivity
-		if (size([r | r <- result, round(r[2], .001) == 1, r[0] == a.method || r[1] == a.method]) >= 1) {
-			vectors2 = drop(1, vectors2);
-			i += 1;
-			continue;
-		} 		
-		
-		for (b <- vectors2) {
-			if (a.method == b.method) continue;
-			
-			c = cosine(a.vector,b.vector);
-			result += [<a.method, b.method, c>]; 
-		}
-			
-		// Symmetry
-		vectors2 = drop(1, vectors2);
-		
-		i += 1;
-	}
-
-	//debugger(result);
-	debugger(size(result));
-	debugger(size(vectors));	
-	
-	writeCSV(result, file_cosines);
+	code_per_method();
 }
 
 
-public void euclidean_scores() {	
-	
-	vectors = readCSV(#lrel[loc method, list[int] vector], file_vectors);
-	
-	int i = 1, total = size(vectors);
-	result = [];
-	list[tuple[loc method, list[int] vector]] vectors2 = vectors;
-	for (a <- vectors) {
-		print("Calculating euclidian distance <i> of <total>\r");
-		
-		// Transitivity
-		if (size([r | r <- result, round(r[2], .001) == 0, r[0] == a.method || r[1] == a.method]) >= 1) {
-			vectors2 = drop(1, vectors2);
-			i += 1;
-			continue;
-		} 		
-		
-		for (b <- vectors2) {
-			if (a.method == b.method) continue;
-			
-			c = euclidean(a.vector,b.vector);
-			result += [<a.method, b.method, c>]; 
-		}
-			
-		// Symmetry
-		vectors2 = drop(1, vectors2);
-		
-		i += 1;
-	}
-
-
-	//debugger(result);
-	debugger(size(result));
-	debugger(size(vectors));	
-	
-	writeCSV(result, file_euclidean);
-}
 
 public map[str file, int methods] methods_per_file() {
 	
@@ -171,54 +50,9 @@ public map[str file, int methods] methods_per_file() {
 	return x;
 }
 
-public void code_per_method() {
-		
-	model = createM3FromEclipseProject(project);
-	
-	list[tuple[str method, list[str] source]] x = [];
-	
-	for (method <- methods(model)) {	
-		methodsrc = getLines(method);
-		methodsrc = [replaceAll(s, "\t", "    ") | s <- methodsrc];
-		methodsrc = [replaceAll(s, "\'", "") | s <- methodsrc];
-		methodsrc = [replaceAll(s, "\<br\>", "\n") | s <- methodsrc];
-		methodsrc = [replaceAll(s, "\<", " ") | s <- methodsrc];
-		methodsrc = [replaceAll(s, "\>", " ") | s <- methodsrc];
-		
-		//x[method.path] = methodsrc;
-		x += [<method.path, methodsrc>];
-		
-	}
-	
-	//writeCSV(x, src_file);
-	
-	writeFile(src_file, "");
-	
-	appendToFile(src_file, "[");
-	
-	int counter = 1, total = size(x);
-	for (i <- x) {
-		appendToFile(src_file, "{");
-		appendToFileEnc(src_file, "utf-8", "\"method\":\"<i.method>\",\"source\":<i.source>");
-		
-		if (counter < total) {
-			appendToFile(src_file, "},\n");
-		} else {
-			appendToFile(src_file, "}");
-		}
-		
-		counter += 1;	
-	}
-	
-	appendToFile(src_file, "]");
-	
-	debugger("-- DONE");
-}
-
-public void dups_per_file() {
+public list[tuple[str name, int size, list[str] imports, list[tuple[str method1, str method2]] methods]] dups_per_file() {
 
 	x = methods_per_file();
-	y = code_per_method();
 	dups = cosine_dup();
 	
 	list[tuple[str name, int size, list[str] imports, list[tuple[str method1, str method2]] methods]] export = [];
@@ -243,6 +77,11 @@ public void dups_per_file() {
 	}
 	
 	//debugger(export);
+	return export;
+}
+
+public void write_dups() {
+	list[tuple[str name, int size, list[str] imports, list[tuple[str method1, str method2]] methods]] export = dups_per_file();
 	
 	writeFile(export_file, "");
 	
@@ -291,20 +130,53 @@ public void dups_per_file() {
 
 }
 
-public list[tuple[loc method1, loc method2, str score]] cosine_dup() {	
+public void code_per_method() {
 		
-	vectors = readCSV(#lrel[loc method1, loc method2, str score], file_cosines);
+	model = createM3FromEclipseProject(project);
 	
-	list[tuple[loc method1, loc method2, str score]] dups = [a | a <- vectors, toReal(a.score) >= cosine_threshold ];
+	list[tuple[str method, list[str] source]] x = [];
 	
-	//debugger(size(vectors));
-	//debugger(size(dups));
+	for (method <- methods(model)) {	
+		methodsrc = getLines(method);
+		methodsrc = [replaceAll(s, "\t", "    ") | s <- methodsrc];
+		methodsrc = [replaceAll(s, "\'", "") | s <- methodsrc];
+		methodsrc = [replaceAll(s, "\<br\>", "\n") | s <- methodsrc];
+		methodsrc = [replaceAll(s, "\<", " ") | s <- methodsrc];
+		methodsrc = [replaceAll(s, "\>", " ") | s <- methodsrc];
+		
+		//x[method.path] = methodsrc;
+		x += [<method.path, methodsrc>];
+		
+	}
 	
-	return dups;
+	writeCSV(x, src_file_csv);
 	
+	writeFile(src_file_json, "");
+	
+	appendToFile(src_file_json, "[");
+	
+	int counter = 1, total = size(x);
+	for (i <- x) {
+		appendToFile(src_file_json, "{");
+		appendToFileEnc(src_file_json, "utf-8", "\"method\":\"<i.method>\",\"source\":<i.source>");
+		
+		if (counter < total) {
+			appendToFile(src_file_json, "},\n");
+		} else {
+			appendToFile(src_file_json, "}");
+		}
+		
+		counter += 1;	
+	}
+	
+	appendToFile(src_file_json, "]");
+	
+	debugger("-- DONE");
 }
 
-public void find_clone_classes() {
+
+
+public list[loc] find_clone_classes() {
 	vectors = readCSV(#lrel[loc method, list[int] vector], file_vectors);
 	debugger(typeOf(vectors));
 	
@@ -318,17 +190,17 @@ public void find_clone_classes() {
 		}
 	}
 	
-	int max_clone = 0;
+	list[loc] max_clone = [];
 	for (c <- clone_class) {
-		if (max_clone < size(clone_class[c])) max_clone = size(clone_class[c]);
+		if (size(max_clone) < size(clone_class[c])) max_clone = clone_class[c];
 	}
 	
-	debugger(max_clone);
+	debugger(size(max_clone));
 	
-	debugger([clone_class[c] | c <- clone_class, size(clone_class[c]) == max_clone]);
+	return max_clone;
 }
 
-public void find_biggest_clone() {
+public list[str] find_biggest_clone() {
 	list[tuple[loc method1, loc method2, str score]] dups = cosine_dup();
 	source = readCSV(#lrel[str method, list[str] s], |project://series2/src/export_src.csv|);
 	
@@ -342,12 +214,10 @@ public void find_biggest_clone() {
 		}
 	}
 	
-	debugger(max_clone);
-	
-	
+	return max_clone;
 }
 
-public void find_clone_perc() {
+public int find_clone_perc() {
 	list[tuple[loc method1, loc method2, str score]] dups = cosine_dup();
 	source = readCSV(#lrel[str method, list[str] s], |project://series2/src/export_src.csv|);
 	
@@ -360,9 +230,6 @@ public void find_clone_perc() {
 			}
 		}
 	}
-	
-	debugger(getLocProject(project));
-	debugger(result);
-	
-	
+		
+	return percent(result, getLocProject(project));
 }
