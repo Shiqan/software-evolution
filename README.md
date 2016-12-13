@@ -49,7 +49,8 @@ However, these studies use more metrics.
 3. Find all the scores where the cosine similarity equals 1 (same vector). When adding more metrics to the vectors this threshold needs to be adjusted.
 
 ### Visualization
-For the visualization of the clones I chose to implement an edge bundle diagram described in Hauptmann et al. (2012) and Zhou et al. (2013). This way, it is easy to see how clones are related within files and focus on manual inspection of the clones. Since this is on file level, I added an onclick event to show which methods exactly are the clones and when clicking a table row you can actually see the source code of both methods. Therefore, my visualization supports root cause analysis.
+For the visualization of the clones I chose to implement an edge bundle diagram described in Hauptmann et al. (2012) and Zhou et al. (2013). This way, it is easy to see how clones are related within files and focus on manual inspection of the clones. Since this is on file level, I added an onclick event to show which methods exactly are the clones and when clicking a table row you can actually see the source code of both methods. Therefore, my visualization supports Top-Down Program Comprehension (Storey et al., 1999) and root cause analysis.
+And lastly, my visualization reduces the cognitive overhead of the maintainer by visualization the entire project in one graph. Storey et al. (1997) did a research that the multiple window approach disorients users. However, they also found that a large number of arcs can disorientate the user and that is something my visualization does. 
 
 # References
 Roy, C. K., Cordy, J. R., & Koschke, R. (2009). Comparison and evaluation of code clone detection techniques and tools: A qualitative approach. Science of Computer Programming, 74(7), 470-495.
@@ -63,6 +64,10 @@ Mayrand, J., Leblanc, C., & Merlo, E. M. (1996, November). Experiment on the aut
 Hauptmann, B., Bauer, V., & Junker, M. (2012, June). Using edge bundle views for clone visualization. In Proceedings of the 6th International Workshop on Software Clones (pp. 86-87). IEEE Press.
 
 Zhou, H., Xu, P., Yuan, X., & Qu, H. (2013). Edge bundling in information visualization. Tsinghua Science and Technology, 18(2), 145-156.
+
+Storey, M. A., Wong, K., & Muller, H. A. (1997, October). How do program understanding tools affect how programmers understand programs?. In Reverse Engineering, 1997. Proceedings of the Fourth Working Conference on (pp. 12-21). IEEE.
+
+Storey, M. A., Fracchia, F. D., & Müller, H. A. (1999). Cognitive design elements to support the construction of a mental model during software exploration. Journal of Systems and Software, 44(3), 171-185.
 
 Davy Landman, Alexander Serebrenik, and Jurgen Vinju.  Empirical anal-ysis of the relationship between cc and sloc in a large corpus of java meth-ods.  InSoftware Maintenance and Evolution (ICSME), 2014 IEEE Inter-national Conference on, pages 221–230. IEEE, 2014.
 
