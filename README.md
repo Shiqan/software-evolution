@@ -48,9 +48,16 @@ However, these studies use more metrics.
 2. For all method combinations, calcuate the cosine similarity based on the two vectors.
 3. Find all the scores where the cosine similarity equals 1 (same vector). When adding more metrics to the vectors this threshold needs to be adjusted.
 
+Based on the implementation, the metric based approach is able to detect type 1, type 2 and type 3 clones. My implementation however, will only detect type 1 and type 2 clones simply because I dont have enough metrics. I also cannot tell what type of clone I found because I dont do any textual analysis. If I add more metrics which are described in the studies mentioned above, and add a metric for textual analysis my implementation will be able to find type 1, type 2 and type 3 clones.
+
 ### Visualization
 For the visualization of the clones I chose to implement an edge bundle diagram described in Hauptmann et al. (2012) and Zhou et al. (2013). This way, it is easy to see how clones are related within files and focus on manual inspection of the clones. Since this is on file level, I added an onclick event to show which methods exactly are the clones and when clicking a table row you can actually see the source code of both methods. Therefore, my visualization supports Top-Down Program Comprehension (Storey et al., 1999) and root cause analysis.
 And lastly, my visualization reduces the cognitive overhead of the maintainer by visualization the entire project in one graph. Storey et al. (1997) did a research that the multiple window approach disorients users. However, they also found that a large number of arcs can disorientate the user and that is something my visualization does. 
+
+### Cloning statistics
+* 20% duplicated lines.
+* 729 methods in the biggest clone class.
+* ... lines in the biggest clone.
 
 # References
 Roy, C. K., Cordy, J. R., & Koschke, R. (2009). Comparison and evaluation of code clone detection techniques and tools: A qualitative approach. Science of Computer Programming, 74(7), 470-495.
