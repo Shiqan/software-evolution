@@ -57,7 +57,7 @@ And lastly, my visualization reduces the cognitive overhead of the maintainer by
 ### Cloning statistics
 * 20% duplicated lines.
 * 729 methods in the biggest clone class.
-* ... lines in the biggest clone.
+* 29 lines in the biggest clone.
 
 # References
 Roy, C. K., Cordy, J. R., & Koschke, R. (2009). Comparison and evaluation of code clone detection techniques and tools: A qualitative approach. Science of Computer Programming, 74(7), 470-495.
